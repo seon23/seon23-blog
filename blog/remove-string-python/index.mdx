@@ -8,7 +8,6 @@ hero_image: "./python-strip"
 # hero_image_credit_link: ""
 ---
 
-...
 
 스파르타 코딩클럽 웹개발 종합반 2주차 숙제를 하던 중 문제가 발생했다.
 
@@ -18,9 +17,9 @@ hero_image: "./python-strip"
 2. 스크래핑할 사이트
     - [https://www.genie.co.kr/chart/top200?ditc=M&rtm=N&ymd=20210701](https://www.genie.co.kr/chart/top200?ditc=M&rtm=N&ymd=20210701)
 3. 예상 결과
-   <p align="center">
-    <img src = "../../src/images/scrape-expected-result" width="90%">
-   </p> 
+<p align="center">
+<img src = "https://github.com/seon23/seon23-blog/blob/main/src/images/scrape-expected-result.png?raw=true" width="90%">
+</p> 
 
 <br>
 
@@ -46,7 +45,7 @@ for song in songs:
     print(rank, title, artist)
 ```
 
-![https://velog.velcdn.com/images/govkfl100/post/9fc248f1-6e5a-4b94-9468-a66dd019c6bd/image.png](https://velog.velcdn.com/images/govkfl100/post/9fc248f1-6e5a-4b94-9468-a66dd019c6bd/image.png)
+![](../../src/images/scrape-actual-result.png)
 
 15위 곡 제목 옆에 '19금' 문자와 긴 공백이 출력되었다. title 변수 할당 과정을 수정해야한다.
 
@@ -54,24 +53,24 @@ for song in songs:
 
 ### 2. 원인과 해결 과정
 
-![https://velog.velcdn.com/images/govkfl100/post/89b61ca1-b128-4840-a947-32efa92134b9/image.png](https://velog.velcdn.com/images/govkfl100/post/89b61ca1-b128-4840-a947-32efa92134b9/image.png)
+![](../../src/images/scrape-html-class.png)
 
 - 15위 Peaches에 달려있는 19마크가 문제이므로, 이 부분을 구성하는 코드를 직접 살펴보았다. 해당 코드는 다음과 같다.
     
     ```html
     <a href="#" class="title ellipsis" title="재생" onclick="fnPlaySong('92682943','1');return false;">
     	<span class="icon icon-19">
-        19	<!--a.title.ellipsis.text가 가리키는 부분(1)-->
-        <span class="hide">
-          금	<!--a.title.ellipsis.text가 가리키는 부분(2)-->
-        </span>
+            19	<!--a.title.ellipsis.text가 가리키는 부분(1)-->
+            <span class="hide">
+                금	<!--a.title.ellipsis.text가 가리키는 부분(2)-->
+            </span>
     	</span>
-    	<!--a.title.ellipsis.text가 가리키는 부분(3)-->
-      Peaches (Feat. Daniel Caesar &amp; Giveon)
+        <!--a.title.ellipsis.text가 가리키는 부분(3)-->
+        Peaches (Feat. Daniel Caesar &amp; Giveon)
     </a>
     ```
     
-- <a></a> 안에 보이는 ‘19, 금, Peaches (Feat. Daniel Caesar &amp; Giveon)’이 `a.title.ellipsis.text`에 해당한다. 다른 곡들과 다르게 text가 가리키는 부분에 `19`, `금`이 포함되어 있기 때문에, text를 호출하면 이 문자가 따라올 수 밖에 없다.
+- a 태그 안에 있는 ‘19, 금, Peaches (Feat. Daniel Caesar &amp; Giveon)’ 문자가 `a.title.ellipsis.text`에 해당한다. 다른 곡들과 다르게 text가 가리키는 부분에 `19`, `금`이 포함되어 있기 때문에, text를 호출하면 이 문자가 따라올 수 밖에 없다.
 
 따라서 불필요한 문자를 발견하면 삭제하는 코드를 for문 내에 삽입해 보았다.
 
